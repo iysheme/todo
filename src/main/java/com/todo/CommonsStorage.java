@@ -118,4 +118,10 @@ public class CommonsStorage {
 
         return todos;
     }
+
+    public static User updatePassword(User user, String password) {
+        users.get(user.getEmail()).setPassword(password);
+
+        return users.get(user.getEmail());
+    }
 }

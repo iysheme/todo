@@ -20,8 +20,4 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public boolean isPasswordMatched(String match) {
-        return password.equals(match);
-    }
 }

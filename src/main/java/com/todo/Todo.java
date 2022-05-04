@@ -13,19 +13,11 @@ public class Todo {
         ACTIVE, COMPLETED
     }
 
-    public enum TodoLookupDateStrategy {
-        BEFORE_DATE, SAME_DATE, AFTER_DATE
-    }
-
-    public Todo(String name, String details, LocalDateTime dayCreated) {
+    public Todo(String name, String details) {
         this.name = name;
         this.details = details;
-        this.dayCreated = dayCreated;
+        this.dayCreated = LocalDateTime.now(ZoneId.systemDefault());
         status = TodoStatus.ACTIVE;
-    }
-
-    public Todo(String name, String details) {
-        this(name, details, LocalDateTime.now(ZoneId.systemDefault()));
     }
 
     public String getName() {

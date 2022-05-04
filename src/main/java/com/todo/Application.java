@@ -142,7 +142,15 @@ public class Application {
         });
 
         logger.info("Enter todo index");
-        int index = sc.nextInt();
+        int index;
+        try {
+            index = sc.nextInt();
+            if (index < 1 || index > todos.size()) throw new InputMismatchException();
+        }
+        catch (InputMismatchException e) {
+            logger.warn("Invalid Input");
+            return false;
+        }
 
         Todo todo = CommonsStorage.removeTodo(user, index);
         logger.info(String.format("Todo removed"));
@@ -162,7 +170,15 @@ public class Application {
         });
 
         logger.info("Enter todo index");
-        int index = sc.nextInt();
+        int index;
+        try {
+            index = sc.nextInt();
+            if (index < 1 || index > todos.size()) throw new InputMismatchException();
+        }
+        catch (InputMismatchException e) {
+            logger.warn("Invalid Input");
+            return false;
+        }
 
         int option;
         logger.info("\n" +
@@ -193,7 +209,15 @@ public class Application {
         else {
             logger.info("Enter 1 to set status to completed");
             logger.info("Enter 2 to set status to active");
-            int statusIn = sc.nextInt();
+            int statusIn;
+            try {
+                statusIn = sc.nextInt();
+                if (statusIn < 1 || statusIn > 2) throw new InputMismatchException();
+            }
+            catch (InputMismatchException e) {
+                logger.warn("Invalid Input");
+                return false;
+            }
 
             Todo.TodoStatus status = statusIn == 1 ? Todo.TodoStatus.COMPLETED : Todo.TodoStatus.ACTIVE;
             CommonsStorage.updateTodoByStatus(user, index, status);
@@ -208,14 +232,6 @@ public class Application {
             logger.warn("You have not logged in");
             return false;
         }
-
-        TreeList<Todo> todos = CommonsStorage.getTodos(user);
-        todos.forEach(todo -> {
-            logger.info(String.format("%d -> %s", todos.indexOf(todo) + 1, todo));
-        });
-
-        logger.info("Enter todo index");
-        int index = sc.nextInt();
 
         int option;
         logger.info("\n" +
@@ -246,7 +262,7 @@ public class Application {
             logger.info(String.format("%s", searchedTodos));
         }
         else {
-            logger.info("Enter from 1 - 7 (Monday - Sunday");
+            logger.info("Enter from 0 - 6 (Monday - Sunday)");
             int day = sc.nextInt();
 
             TreeList<Todo> searchedTodos = CommonsStorage.searchTodoByDay(user, day);
@@ -254,6 +270,35 @@ public class Application {
         }
 
         logger.info("Searched");
+        return true;
+    }
+
+    public boolean changePassword() {
+        if (!isLoggedIn()) {
+            logger.warn("You have not logged in");
+            return false;
+        }
+
+        logger.info("Enter old password");
+        String oldPassword = sc.next();
+
+        if (!user.getPassword().equals(oldPassword)) {
+            logger.warn("Invalid old password");
+            return false;
+        }
+
+        logger.info("Enter new password");
+        String password = sc.next();
+        logger.info("Confirm password");
+        String password1 = sc.next();
+        if (!password.equals(password1)) {
+            logger.warn("Passwords do not match");
+            return false;
+        }
+
+        user = CommonsStorage.updatePassword(user, password);
+        logger.info("Password changed successfully!");
+
         return true;
     }
 }

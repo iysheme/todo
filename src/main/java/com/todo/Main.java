@@ -72,10 +72,11 @@ public class Main {
                 "Enter 5 to delete a todo)\n" +
                 "Enter 6 to update a todo)\n" +
                 "Enter 7 to search for a todo)\n" +
+                "Enter 8 to change password)\n" +
                 "Exit (Enter any other input to exit)\n");
         try {
             int option = sc.nextInt();
-            if (option < 1 || option > 7) throw new InputMismatchException();
+            if (option < 1 || option > 8) throw new InputMismatchException();
 
             doDashboard(option);
         }
@@ -89,22 +90,52 @@ public class Main {
     private static void doDashboard(int option) {
         switch (option) {
             case 1:
-                if (Application.getApplication().createPost()) {
+                if (Application.getApplication().addTodo()) {
                     dashboard();
                 }
                 else requestOption();
                 break;
             case 2:
-                if (Application.getApplication().viewPost()) {
+                if (Application.getApplication().getAllTodos()) {
                     dashboard();
                 }
                 else requestOption();
                 break;
             case 3:
-                if (Application.getApplication().commentPost()) {
+                if (Application.getApplication().getActiveTodos()) {
                     dashboard();
                 }
                 else requestOption();
+                break;
+            case 4:
+                if (Application.getApplication().getCompletedTodos()) {
+                    dashboard();
+                }
+                else requestOption();
+                break;
+            case 5:
+                if (Application.getApplication().deleteTodo()) {
+                    dashboard();
+                }
+                else requestOption();
+                break;
+            case 6:
+                if (Application.getApplication().updateTodo()) {
+                    dashboard();
+                }
+                else requestOption();
+                break;
+            case 7:
+                if (Application.getApplication().searchTodo()) {
+                    dashboard();
+                }
+                else requestOption();
+                break;
+            case 8:
+                if (Application.getApplication().changePassword()) {
+                    requestOption();
+                }
+                else dashboard();
                 break;
             default:
                 logger.warn("Option not supported");
